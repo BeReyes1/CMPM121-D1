@@ -4,3 +4,7 @@ import "./style.css";
 document.body.innerHTML = `
   <p>Example image asset: <img src="${exampleIconUrl}" class="icon" /></p>
 `;
+
+const clickButton = document.createElement("button");
+clickButton.textContent = "🦆";
+document.body.append(clickButton);
