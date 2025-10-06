@@ -14,14 +14,20 @@ document.body.append(clickButton);
 
 const counterText = document.getElementById("counterText")!;
 
-setInterval(autoClick, 1000);
-
 clickButton.addEventListener("click", () => {
   counter++;
-  counterText.textContent = `${counter} ducks`;
+  counterText.textContent = `${counter.toFixed(0)} ducks`;
 });
 
-function autoClick() {
-  counter++;
-  counterText.textContent = `${counter} ducks`;
+let lastTime = performance.now();
+function autoStepClick(timestamp: number) {
+  const elapsedTime = (timestamp - lastTime) / 1000;
+  lastTime = performance.now();
+
+  counter += elapsedTime * 1;
+  counterText.textContent = `${counter.toFixed(0)} ducks`;
+
+  requestAnimationFrame(autoStepClick);
 }
+
+requestAnimationFrame(autoStepClick);
