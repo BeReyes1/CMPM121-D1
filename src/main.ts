@@ -28,7 +28,7 @@ purchaseButton.addEventListener("click", () => {
     counter -= 10;
     growthRate++;
   }
-})
+});
 
 let lastTime = performance.now();
 function autoStepClick(timestamp: number) {
@@ -37,7 +37,7 @@ function autoStepClick(timestamp: number) {
 
   counter += elapsedTime * growthRate;
   counterText.textContent = `${counter.toFixed(0)} ducks`;
-  
+
   purchaseButton.disabled = counter < 10;
 
   requestAnimationFrame(autoStepClick);
