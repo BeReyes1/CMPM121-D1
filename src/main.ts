@@ -14,7 +14,14 @@ document.body.append(clickButton);
 
 const counterText = document.getElementById("counterText")!;
 
+setInterval(autoClick, 1000);
+
 clickButton.addEventListener("click", () => {
   counter++;
   counterText.textContent = `${counter} ducks`;
 });
+
+function autoClick() {
+  counter++;
+  counterText.textContent = `${counter} ducks`;
+}
