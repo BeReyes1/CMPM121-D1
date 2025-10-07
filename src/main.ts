@@ -64,6 +64,7 @@ function autoStepClick(timestamp: number) {
   lastTime = performance.now();
 
   counter += elapsedTime * growthRate;
+  
   itemsText.textContent = availableDuckUpgrades.map((upgrade) =>
     `${upgrade.totalAmount} ${upgrade.name}s`
   ).join(", ");
