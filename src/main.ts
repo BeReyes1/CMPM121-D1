@@ -1,4 +1,5 @@
 import exampleIconUrl from "./noun-paperclip-7598668-00449F.png";
+import notlikeduck from "./NotLikeDuck.png";
 import "./style.css";
 
 let counter: number = 0;
@@ -13,24 +14,24 @@ let bItems: number = 0;
 let cItems: number = 0;
 
 document.body.innerHTML = `
-  <p>Example image asset: <img src="${exampleIconUrl}" class="icon" /></p>
    <div id="counterText">0 ducks</div>
    <div id="growthText"> 0 cookies/sec</div>
    <div id= "itemsText"> 0 A, 0 B, 0 C</div>
 `;
 
 const clickButton = document.createElement("button");
-clickButton.textContent = "🦆";
+clickButton.style.backgroundImage = `url(${notlikeduck})`;
+clickButton.style.backgroundSize = "contain";
+clickButton.style.backgroundColor = "transparent";
+clickButton.style.width = "64px";
+clickButton.style.height = "64px";
 document.body.append(clickButton);
 
 const purchaseButtonA = document.createElement("button");
-purchaseButtonA.textContent = `Auto Click A: Costs ${aPrice}`;
 document.body.append(purchaseButtonA);
 const purchaseButtonB = document.createElement("button");
-purchaseButtonB.textContent = `Auto Click B: Costs ${bPrice}`;
 document.body.append(purchaseButtonB);
 const purchaseButtonC = document.createElement("button");
-purchaseButtonC.textContent = `Auto Click C: Costs ${cPrice}`;
 document.body.append(purchaseButtonC);
 
 const counterText = document.getElementById("counterText")!;
@@ -77,12 +78,12 @@ function autoStepClick(timestamp: number) {
   counter += elapsedTime * growthRate;
   counterText.textContent = `${counter.toFixed(0)} ducks`;
   itemsText.textContent =
-    `${aItems} A Items, ${bItems} B Items, ${cItems} C Items`;
+    `${aItems} Cursors, ${bItems} Duck Assistants, ${cItems} Community Parks`;
   growthText.textContent = `${growthRate.toFixed(1)} ducks/second`;
 
-  purchaseButtonA.textContent = `Auto Click A: Costs ${aPrice.toFixed(2)}`;
-  purchaseButtonB.textContent = `Auto Click B: Costs ${bPrice.toFixed(2)}`;
-  purchaseButtonC.textContent = `Auto Click C: Costs ${cPrice.toFixed(2)}`;
+  purchaseButtonA.textContent = `Cursor: Costs ${aPrice.toFixed(2)}`;
+  purchaseButtonB.textContent = `Duck Assistant: Costs ${bPrice.toFixed(2)}`;
+  purchaseButtonC.textContent = `Community Park: Costs ${cPrice.toFixed(2)}`;
   purchaseButtonA.disabled = counter < aPrice;
   purchaseButtonB.disabled = counter < bPrice;
   purchaseButtonC.disabled = counter < cPrice;
