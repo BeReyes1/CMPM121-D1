@@ -4,13 +4,18 @@ import "./style.css";
 let counter: number = 0;
 let growthRate: number = 0;
 
-let aPrice: number = 10;
-let bPrice: number = 100;
-let cPrice: number = 1000;
+interface DuckUpgrade {
+  name: string;
+  cost: number;
+  rate: number;
+  totalAmount: number;
+}
 
-let aItems: number = 0;
-let bItems: number = 0;
-let cItems: number = 0;
+const availableDuckUpgrades: DuckUpgrade[] = [
+  { name: "Cursor", cost: 10, rate: 0.1, totalAmount: 0 },
+  { name: "Duck Assistant", cost: 100, rate: 2, totalAmount: 0 },
+  { name: "Community Park", cost: 1000, rate: 50, totalAmount: 0 },
+];
 
 document.body.innerHTML = `
    <div id="counterText">0 ducks</div>
@@ -26,13 +31,6 @@ clickButton.style.width = "64px";
 clickButton.style.height = "64px";
 document.body.append(clickButton);
 
-const purchaseButtonA = document.createElement("button");
-document.body.append(purchaseButtonA);
-const purchaseButtonB = document.createElement("button");
-document.body.append(purchaseButtonB);
-const purchaseButtonC = document.createElement("button");
-document.body.append(purchaseButtonC);
-
 const counterText = document.getElementById("counterText")!;
 const itemsText = document.getElementById("itemsText")!;
 const growthText = document.getElementById("growthText")!;
@@ -42,32 +40,23 @@ clickButton.addEventListener("click", () => {
   counterText.textContent = `${counter.toFixed(0)} ducks`;
 });
 
-purchaseButtonA.addEventListener("click", () => {
-  if (counter >= aPrice) {
-    counter -= aPrice;
-    growthRate += 0.1;
-    aPrice *= 1.15;
-    aItems++;
-  }
-});
+const purchaseButtons: HTMLButtonElement[] = [];
+for (const upgrade of availableDuckUpgrades) {
+  const button = document.createElement("button");
+  button.textContent = `${upgrade.name}: Costs ${upgrade.cost}`;
+  document.body.append(button);
 
-purchaseButtonB.addEventListener("click", () => {
-  if (counter >= bPrice) {
-    counter -= bPrice;
-    growthRate += 2;
-    bPrice *= 1.15;
-    bItems++;
-  }
-});
+  button.addEventListener("click", () => {
+    if (counter >= upgrade.cost) {
+      counter -= upgrade.cost;
+      growthRate += upgrade.rate;
+      upgrade.cost *= 1.15;
+      upgrade.totalAmount++;
+    }
+  });
 
-purchaseButtonC.addEventListener("click", () => {
-  if (counter >= cPrice) {
-    counter -= cPrice;
-    growthRate += 50;
-    cPrice *= 1.15;
-    cItems++;
-  }
-});
+  purchaseButtons.push(button);
+}
 
 let lastTime = performance.now();
 function autoStepClick(timestamp: number) {
@@ -75,17 +64,17 @@ function autoStepClick(timestamp: number) {
   lastTime = performance.now();
 
   counter += elapsedTime * growthRate;
-  counterText.textContent = `${counter.toFixed(0)} ducks`;
-  itemsText.textContent =
-    `${aItems} Cursors, ${bItems} Duck Assistants, ${cItems} Community Parks`;
+  itemsText.textContent = availableDuckUpgrades.map((upgrade) =>
+    `${upgrade.totalAmount} ${upgrade.name}s`
+  ).join(", ");
   growthText.textContent = `${growthRate.toFixed(1)} ducks/second`;
 
-  purchaseButtonA.textContent = `Cursor: Costs ${aPrice.toFixed(2)}`;
-  purchaseButtonB.textContent = `Duck Assistant: Costs ${bPrice.toFixed(2)}`;
-  purchaseButtonC.textContent = `Community Park: Costs ${cPrice.toFixed(2)}`;
-  purchaseButtonA.disabled = counter < aPrice;
-  purchaseButtonB.disabled = counter < bPrice;
-  purchaseButtonC.disabled = counter < cPrice;
+  for (let i = 0; i < availableDuckUpgrades.length; i++) {
+    const upgrade = availableDuckUpgrades[i];
+    const button = purchaseButtons[i];
+    button.textContent = `${upgrade.name}: Costs ${upgrade.cost.toFixed(2)}`;
+    button.disabled = counter < upgrade.cost;
+  }
 
   requestAnimationFrame(autoStepClick);
 }
