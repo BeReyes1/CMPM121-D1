@@ -4,6 +4,10 @@ import "./style.css";
 let counter: number = 0;
 let growthRate: number = 0;
 
+let aPrice: number = 10;
+let bPrice: number = 100;
+let cPrice: number = 1000;
+
 let aItems: number = 0;
 let bItems: number = 0;
 let cItems: number = 0;
@@ -20,13 +24,13 @@ clickButton.textContent = "🦆";
 document.body.append(clickButton);
 
 const purchaseButtonA = document.createElement("button");
-purchaseButtonA.textContent = "Auto Click A: Costs 10";
+purchaseButtonA.textContent = `Auto Click A: Costs ${aPrice}`;
 document.body.append(purchaseButtonA);
 const purchaseButtonB = document.createElement("button");
-purchaseButtonB.textContent = "Auto Click B: Costs 100";
+purchaseButtonB.textContent = `Auto Click B: Costs ${bPrice}`;
 document.body.append(purchaseButtonB);
 const purchaseButtonC = document.createElement("button");
-purchaseButtonC.textContent = "Auto Click C: Costs 1000";
+purchaseButtonC.textContent = `Auto Click C: Costs ${cPrice}`;
 document.body.append(purchaseButtonC);
 
 const counterText = document.getElementById("counterText")!;
@@ -39,25 +43,28 @@ clickButton.addEventListener("click", () => {
 });
 
 purchaseButtonA.addEventListener("click", () => {
-  if (counter >= 10) {
-    counter -= 10;
+  if (counter >= aPrice) {
+    counter -= aPrice;
     growthRate += 0.1;
+    aPrice *= 1.15;
     aItems++;
   }
 });
 
 purchaseButtonB.addEventListener("click", () => {
-  if (counter >= 100) {
-    counter -= 100;
+  if (counter >= bPrice) {
+    counter -= bPrice;
     growthRate += 2;
+    bPrice *= 1.15;
     bItems++;
   }
 });
 
 purchaseButtonC.addEventListener("click", () => {
-  if (counter >= 1000) {
-    counter -= 1000;
+  if (counter >= cPrice) {
+    counter -= cPrice;
     growthRate += 50;
+    cPrice *= 1.15;
     cItems++;
   }
 });
@@ -73,9 +80,12 @@ function autoStepClick(timestamp: number) {
     `${aItems} A Items, ${bItems} B Items, ${cItems} C Items`;
   growthText.textContent = `${growthRate.toFixed(1)} ducks/second`;
 
-  purchaseButtonA.disabled = counter < 10;
-  purchaseButtonB.disabled = counter < 100;
-  purchaseButtonC.disabled = counter < 1000;
+  purchaseButtonA.textContent = `Auto Click A: Costs ${aPrice.toFixed(2)}`;
+  purchaseButtonB.textContent = `Auto Click B: Costs ${bPrice.toFixed(2)}`;
+  purchaseButtonC.textContent = `Auto Click C: Costs ${cPrice.toFixed(2)}`;
+  purchaseButtonA.disabled = counter < aPrice;
+  purchaseButtonB.disabled = counter < bPrice;
+  purchaseButtonC.disabled = counter < cPrice;
 
   requestAnimationFrame(autoStepClick);
 }
