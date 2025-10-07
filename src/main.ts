@@ -1,4 +1,3 @@
-import exampleIconUrl from "./noun-paperclip-7598668-00449F.png";
 import notlikeduck from "./NotLikeDuck.png";
 import "./style.css";
 
