@@ -9,12 +9,45 @@ interface DuckUpgrade {
   cost: number;
   rate: number;
   totalAmount: number;
+  description: string;
 }
 
 const availableDuckUpgrades: DuckUpgrade[] = [
-  { name: "Cursor", cost: 10, rate: 0.1, totalAmount: 0 },
-  { name: "Duck Assistant", cost: 100, rate: 2, totalAmount: 0 },
-  { name: "Community Park", cost: 1000, rate: 50, totalAmount: 0 },
+  {
+    name: "Cursor",
+    cost: 10,
+    rate: 0.1,
+    totalAmount: 0,
+    description: "Get some help from a duck cursor.",
+  },
+  {
+    name: "Duck Assistant",
+    cost: 100,
+    rate: 2,
+    totalAmount: 0,
+    description: "He is not a vicious duck.",
+  },
+  {
+    name: "Community Park",
+    cost: 1000,
+    rate: 50,
+    totalAmount: 0,
+    description: "Bread Swarm",
+  },
+  {
+    name: "The Beach",
+    cost: 5000,
+    rate: 200,
+    totalAmount: 0,
+    description: "Duck attack on the Beach!",
+  },
+  {
+    name: "Take Over",
+    cost: 1000000,
+    rate: 10000,
+    totalAmount: 0,
+    description: "The ducks have conquered The World.",
+  },
 ];
 
 document.body.innerHTML = `
@@ -44,6 +77,7 @@ const purchaseButtons: HTMLButtonElement[] = [];
 for (const upgrade of availableDuckUpgrades) {
   const button = document.createElement("button");
   button.textContent = `${upgrade.name}: Costs ${upgrade.cost}`;
+  button.title = upgrade.description;
   document.body.append(button);
 
   button.addEventListener("click", () => {
