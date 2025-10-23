@@ -1,8 +1,17 @@
 import notlikeduck from "./NotLikeDuck.png";
 import "./style.css";
 
+/**
+ * STARTING VARIABLES
+ * Setup for the main variables
+ */
 let counter: number = 0;
 let growthRate: number = 0;
+
+/**
+ * SECTION: SETUP
+ * Interfaces and constants that define game state and purchasable items
+ */
 
 interface DuckUpgrade {
   name: string;
@@ -12,7 +21,7 @@ interface DuckUpgrade {
   description: string;
 }
 
-const availableDuckUpgrades: DuckUpgrade[] = [
+const purchasableUpgrades: DuckUpgrade[] = [
   {
     name: "Cursor",
     cost: 10,
@@ -50,11 +59,25 @@ const availableDuckUpgrades: DuckUpgrade[] = [
   },
 ];
 
+/**
+ * SECTION: TEXT
+ * Setup for text.
+ */
+
 document.body.innerHTML = `
    <div id="counterText">0 ducks</div>
    <div id="growthText"> 0 cookies/sec</div>
    <div id= "itemsText"> 0 A, 0 B, 0 C</div>
 `;
+
+const counterText = document.getElementById("counterText")!;
+const itemsText = document.getElementById("itemsText")!;
+const growthText = document.getElementById("growthText")!;
+
+/**
+ * SECTION: BUTTON ELEMENTS
+ * Setup for the buttons.
+ */
 
 const clickButton = document.createElement("button");
 clickButton.style.backgroundImage = `url(${notlikeduck})`;
@@ -64,17 +87,13 @@ clickButton.style.width = "64px";
 clickButton.style.height = "64px";
 document.body.append(clickButton);
 
-const counterText = document.getElementById("counterText")!;
-const itemsText = document.getElementById("itemsText")!;
-const growthText = document.getElementById("growthText")!;
-
 clickButton.addEventListener("click", () => {
   counter++;
   counterText.textContent = `${counter.toFixed(0)} ducks`;
 });
 
 const purchaseButtons: HTMLButtonElement[] = [];
-for (const upgrade of availableDuckUpgrades) {
+for (const upgrade of purchasableUpgrades) {
   const button = document.createElement("button");
   button.textContent = `${upgrade.name}: Costs ${upgrade.cost}`;
   button.title = upgrade.description;
@@ -92,19 +111,24 @@ for (const upgrade of availableDuckUpgrades) {
   purchaseButtons.push(button);
 }
 
+/**
+ * SECTION: GAMEPLAY
+ * Manages runtime and how the game changes.
+ */
+
 let lastTime = performance.now();
 function autoStepClick(timestamp: number) {
   const elapsedTime = (timestamp - lastTime) / 1000;
   lastTime = performance.now();
 
   counter += elapsedTime * growthRate;
-  itemsText.textContent = availableDuckUpgrades.map((upgrade) =>
+  itemsText.textContent = purchasableUpgrades.map((upgrade) =>
     `${upgrade.totalAmount} ${upgrade.name}s`
   ).join(", ");
   growthText.textContent = `${growthRate.toFixed(1)} ducks/second`;
 
-  for (let i = 0; i < availableDuckUpgrades.length; i++) {
-    const upgrade = availableDuckUpgrades[i];
+  for (let i = 0; i < purchasableUpgrades.length; i++) {
+    const upgrade = purchasableUpgrades[i];
     const button = purchaseButtons[i];
     button.textContent = `${upgrade.name}: Costs ${upgrade.cost.toFixed(2)}`;
     button.disabled = counter < upgrade.cost;
