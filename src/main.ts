@@ -1,5 +1,22 @@
 import notlikeduck from "./NotLikeDuck.png";
+import notlikeduckbg from "./notlikeduckbg.png";
 import "./style.css";
+
+//center button
+/**
+ * UI
+ * Setup for user interface
+ */
+document.body.style.backgroundImage = `url(${notlikeduckbg})`;
+document.body.style.backgroundSize = "cover";
+document.body.style.backgroundPosition = "center";
+document.body.style.backgroundAttachment = "fixed";
+
+document.body.style.display = "flex";
+document.body.style.flexDirection = "column";
+document.body.style.alignItems = "center";
+document.body.style.justifyContent = "center";
+document.body.style.height = "100vh";
 
 /**
  * STARTING VARIABLES
@@ -83,8 +100,9 @@ const clickButton = document.createElement("button");
 clickButton.style.backgroundImage = `url(${notlikeduck})`;
 clickButton.style.backgroundSize = "contain";
 clickButton.style.backgroundColor = "transparent";
-clickButton.style.width = "64px";
-clickButton.style.height = "64px";
+clickButton.style.width = "256px";
+clickButton.style.height = "256px";
+//clickButton.style.position = "absolute";
 document.body.append(clickButton);
 
 clickButton.addEventListener("click", () => {
